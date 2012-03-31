@@ -13,6 +13,14 @@ end
 
 trap('INT'){ EM::stop() }
 
+Thread.abort_on_exception = true
+
+def assert(what)
+  unless what
+    raise "Assertion failed"
+  end
+end
+
 module Handler
   
   def post_init
@@ -61,6 +69,13 @@ EM::run do
   EM::connect('127.0.0.1', 4000, ClientHandler, 2)
   EM::connect('127.0.0.1', 4000, ClientHandler, 3)
   
+  puts "Reactor thread: #{'%#x' % EM::reactor_thread.object_id}"
+  
+  assert EM::reactor_thread?
+  
+  Thread.new do
+    assert !EM::reactor_thread?
+  end
   
   n = 0
   EM::add_periodic_timer(1) do

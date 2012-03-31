@@ -22,11 +22,19 @@ module EM
   
   class <<self
     def add_timer(delay, &block)
-      self.timers << Timer.new(delay, :once, &block)
+      Timer.new(delay, :once, &block).tap do |t|
+        self.timers << t
+      end
     end
     
     def add_periodic_timer(delay, &block)
-      self.timers << Timer.new(delay, :multiple, &block)
+      Timer.new(delay, :multiple, &block).tap do |t|
+        self.timers << t
+      end
+    end
+    
+    def cancel_timer(t)
+      @timers = self.timers.reject{|timer| t.object_id == timer.object_id  }
     end
     
     def timers
