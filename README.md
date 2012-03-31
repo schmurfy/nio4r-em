@@ -7,6 +7,13 @@ is the same when using EM and nio4r.
 
 For now the basic calls are there:
 
+## Core
+
+- EM::reactor_thread
+- EM::reactor_thread?
+- EM::run
+- EM::stop
+
 ## Sockets
 
 - EM::run
@@ -20,4 +27,5 @@ The two EM ways are supported for handlers: module and class inheriting from EM:
 
 - EM::add_timer
 - EM::add_periodic_timer
+- EM::cancel_timer
 
